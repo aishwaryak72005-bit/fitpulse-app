@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api/axios';
 import { FiActivity, FiUser, FiLock, FiMail, FiCheckCircle } from 'react-icons/fi';
 
 export const RegisterTrainer = () => {
@@ -25,7 +25,7 @@ export const RegisterTrainer = () => {
     setError('');
     setLoading(true);
     try {
-      await axios.post('/api/auth/register-trainer/', formData);
+      await api.post('/auth/register-trainer/', formData);
       setSuccess(true);
       setTimeout(() => {
         navigate('/login');
