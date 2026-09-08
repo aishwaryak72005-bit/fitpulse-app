@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Build outputs
+frontend/dist/
+frontend/build/
+staticfiles/
+
+# Database & local media
+*.sqlite3
+db.sqlite3-journal
+media/
+*.log
+
+# Environment variables & IDE
+.env
+.env.local
+.vscode/
+.idea/
+.DS_Store
