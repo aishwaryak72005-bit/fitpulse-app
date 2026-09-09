@@ -45,14 +45,14 @@ api.interceptors.response.use(
           originalRequest.headers['Authorization'] = `Bearer ${newAccess}`;
           return api(originalRequest);
         } catch (refreshErr) {
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-          localStorage.removeItem('user');
-          window.location.href = '/login';
+          // Only clear session if refresh token is genuinely invalid/expired (401/403)
+          if (refreshErr.response && (refreshErr.response.status === 401 || refreshErr.response.status === 403)) {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('user');
+            window.location.href = '/login';
+          }
         }
-      } else {
-        localStorage.clear();
-        window.location.href = '/login';
       }
     }
     return Promise.reject(error);
