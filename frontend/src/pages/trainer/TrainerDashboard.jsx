@@ -6,6 +6,8 @@ import {
   FiAlertTriangle, FiSearch, FiChevronRight, FiPlus, FiCamera, FiX, FiUpload
 } from 'react-icons/fi';
 
+import { Avatar } from '../../components/Avatar';
+
 export const TrainerDashboard = () => {
   const [stats, setStats] = useState(null);
   const [clients, setClients] = useState([]);
@@ -286,17 +288,7 @@ export const TrainerDashboard = () => {
                         className="relative group focus:outline-none"
                         title="Click to view/update profile photo"
                       >
-                        {client.profile_photo ? (
-                          <img
-                            src={client.profile_photo}
-                            alt={client.full_name}
-                            className="w-10 h-10 rounded-full object-cover border-2 border-emerald-500 group-hover:scale-105 transition shadow-md"
-                          />
-                        ) : (
-                          <div className="w-10 h-10 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center border-2 border-emerald-500 group-hover:scale-105 transition shadow-md">
-                            {client.full_name ? client.full_name[0].toUpperCase() : 'C'}
-                          </div>
-                        )}
+                        <Avatar src={client.profile_photo} name={client.full_name} size="w-10 h-10" className="group-hover:scale-105 transition" />
                       </button>
                     </td>
                     <td className="py-3.5 px-4">
@@ -352,17 +344,7 @@ export const TrainerDashboard = () => {
             </div>
 
             <div className="flex flex-col items-center space-y-4">
-              {photoClient.profile_photo ? (
-                <img
-                  src={photoClient.profile_photo}
-                  alt={photoClient.full_name}
-                  className="w-48 h-48 rounded-2xl object-cover border-4 border-emerald-500 shadow-2xl"
-                />
-              ) : (
-                <div className="w-48 h-48 rounded-2xl bg-emerald-950 text-emerald-400 font-extrabold text-6xl flex items-center justify-center border-4 border-emerald-500 shadow-2xl">
-                  {photoClient.full_name ? photoClient.full_name[0].toUpperCase() : 'C'}
-                </div>
-              )}
+              <Avatar src={photoClient.profile_photo} name={photoClient.full_name} size="w-48 h-48" textSize="text-6xl" className="rounded-2xl border-4" />
 
               <div className="text-center">
                 <h4 className="text-xl font-bold text-white">{photoClient.full_name}</h4>

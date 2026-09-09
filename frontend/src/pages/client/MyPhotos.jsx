@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import { FiCamera, FiUpload, FiTrash2 } from 'react-icons/fi';
+import { getMediaUrl } from '../../components/Avatar';
 
 export const MyPhotos = () => {
   const [photos, setPhotos] = useState([]);
@@ -125,15 +126,15 @@ export const MyPhotos = () => {
                 <div className="grid grid-cols-3 gap-2">
                   <div>
                     <span className="text-[10px] text-gray-400 block mb-1">Front</span>
-                    <img src={p.front_photo || 'https://via.placeholder.com/150'} alt="Front" className="w-full h-24 object-cover rounded-lg border border-gray-700" />
+                    <img src={getMediaUrl(p.front_photo) || 'https://via.placeholder.com/150'} alt="Front" className="w-full h-24 object-cover rounded-lg border border-gray-700" />
                   </div>
                   <div>
                     <span className="text-[10px] text-gray-400 block mb-1">Side</span>
-                    <img src={p.side_photo || 'https://via.placeholder.com/150'} alt="Side" className="w-full h-24 object-cover rounded-lg border border-gray-700" />
+                    <img src={getMediaUrl(p.side_photo) || 'https://via.placeholder.com/150'} alt="Side" className="w-full h-24 object-cover rounded-lg border border-gray-700" />
                   </div>
                   <div>
                     <span className="text-[10px] text-gray-400 block mb-1">Back</span>
-                    <img src={p.back_photo || 'https://via.placeholder.com/150'} alt="Back" className="w-full h-24 object-cover rounded-lg border border-gray-700" />
+                    <img src={getMediaUrl(p.back_photo) || 'https://via.placeholder.com/150'} alt="Back" className="w-full h-24 object-cover rounded-lg border border-gray-700" />
                   </div>
                 </div>
               </div>

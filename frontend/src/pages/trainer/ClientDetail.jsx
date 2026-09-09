@@ -8,6 +8,8 @@ import {
 } from 'react-icons/fi';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
+import { Avatar, getMediaUrl } from '../../components/Avatar';
+
 export const ClientDetail = () => {
   const { id } = useParams();
   const [client, setClient] = useState(null);
@@ -168,17 +170,7 @@ export const ClientDetail = () => {
             className="relative group focus:outline-none"
             title="Click to view/update profile photo"
           >
-            {client.profile_photo ? (
-              <img
-                src={client.profile_photo}
-                alt={client.full_name}
-                className="w-12 h-12 rounded-full object-cover border-2 border-emerald-500 group-hover:scale-105 transition shadow-md"
-              />
-            ) : (
-              <div className="w-12 h-12 rounded-full bg-emerald-700 text-white font-bold text-lg flex items-center justify-center border-2 border-emerald-500 group-hover:scale-105 transition shadow-md">
-                {client.full_name ? client.full_name[0].toUpperCase() : 'C'}
-              </div>
-            )}
+            <Avatar src={client.profile_photo} name={client.full_name} size="w-12 h-12" textSize="text-lg" className="group-hover:scale-105 transition" />
             <span className="absolute -bottom-1 -right-1 bg-gray-900 border border-gray-700 p-1 rounded-full text-emerald-400 opacity-0 group-hover:opacity-100 transition">
               <FiCamera className="w-3 h-3" />
             </span>
@@ -568,17 +560,7 @@ export const ClientDetail = () => {
             </div>
 
             <div className="flex flex-col items-center space-y-4">
-              {client.profile_photo ? (
-                <img
-                  src={client.profile_photo}
-                  alt={client.full_name}
-                  className="w-48 h-48 rounded-2xl object-cover border-4 border-emerald-500 shadow-2xl"
-                />
-              ) : (
-                <div className="w-48 h-48 rounded-2xl bg-emerald-950 text-emerald-400 font-extrabold text-6xl flex items-center justify-center border-4 border-emerald-500 shadow-2xl">
-                  {client.full_name ? client.full_name[0].toUpperCase() : 'C'}
-                </div>
-              )}
+              <Avatar src={client.profile_photo} name={client.full_name} size="w-48 h-48" textSize="text-6xl" className="rounded-2xl border-4" />
 
               <div className="text-center">
                 <h4 className="text-xl font-bold text-white">{client.full_name}</h4>
@@ -623,11 +605,11 @@ export const ClientDetail = () => {
             <div className="grid grid-cols-2 gap-6">
               <div className="bg-gray-900 p-4 rounded-xl border border-gray-700 text-center space-y-3">
                 <span className="text-xs font-bold text-amber-400 uppercase tracking-wide">BEFORE ({new Date(beforePhoto.uploaded_at).toLocaleDateString()})</span>
-                <img src={beforePhoto.front_photo || 'https://via.placeholder.com/200'} alt="Before" className="w-full h-64 object-cover rounded-xl" />
+                <img src={getMediaUrl(beforePhoto.front_photo) || 'https://via.placeholder.com/200'} alt="Before" className="w-full h-64 object-cover rounded-xl" />
               </div>
               <div className="bg-gray-900 p-4 rounded-xl border border-gray-700 text-center space-y-3">
                 <span className="text-xs font-bold text-emerald-400 uppercase tracking-wide">AFTER ({new Date(afterPhoto.uploaded_at).toLocaleDateString()})</span>
-                <img src={afterPhoto.front_photo || 'https://via.placeholder.com/200'} alt="After" className="w-full h-64 object-cover rounded-xl" />
+                <img src={getMediaUrl(afterPhoto.front_photo) || 'https://via.placeholder.com/200'} alt="After" className="w-full h-64 object-cover rounded-xl" />
               </div>
             </div>
           </div>
