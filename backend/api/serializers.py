@@ -137,6 +137,7 @@ class ClientCreateSerializer(serializers.Serializer):
     goal_weight = serializers.FloatField(default=65.0)
     fitness_goal = serializers.CharField(default='Fat Loss & Muscle Building')
     workout_time = serializers.TimeField(default='07:00:00')
+    monthly_fee = serializers.DecimalField(max_digits=10, decimal_places=2, default=3000.00)
 
     def create(self, validated_data):
         user_data = {
@@ -167,6 +168,19 @@ class ClientCreateSerializer(serializers.Serializer):
         # Initialize default DietPlan
         DietPlan.objects.create(client=client_profile)
         
+        # Initialize Payment subscription record with trainer's input monthly_fee
+        fee = validated_data.get('monthly_fee', 3000.00)
+        from django.utils import timezone
+        from datetime import timedelta
+        due_date = timezone.now().date() + timedelta(days=30)
+        Payment.objects.create(
+            client=client_profile,
+            monthly_fee=fee,
+            due_date=due_date,
+            renewal_date=due_date,
+            status='PENDING'
+        )
+
         return client_profile
 
 

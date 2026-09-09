@@ -39,7 +39,8 @@ export const ClientManagement = () => {
     current_weight: 70,
     goal_weight: 65,
     fitness_goal: 'Fat Loss & Muscle Building',
-    workout_time: '07:00:00'
+    workout_time: '07:00:00',
+    monthly_fee: 3000
   });
 
   const [formError, setFormError] = useState('');
@@ -481,7 +482,7 @@ export const ClientManagement = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-400 mb-1">Fitness Goal</label>
                   <input
@@ -498,6 +499,17 @@ export const ClientManagement = () => {
                     value={formData.workout_time}
                     onChange={(e) => setFormData({ ...formData, workout_time: e.target.value })}
                     className="bg-gray-900 border border-gray-700 w-full px-3 py-2 rounded-xl text-white text-sm focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-400 mb-1">Monthly Fee (₹)</label>
+                  <input
+                    type="number"
+                    step="100"
+                    value={formData.monthly_fee}
+                    onChange={(e) => setFormData({ ...formData, monthly_fee: parseFloat(e.target.value) || 0 })}
+                    className="bg-gray-900 border border-gray-700 w-full px-3 py-2 rounded-xl text-white text-sm focus:outline-none focus:border-emerald-500 font-bold text-emerald-400"
+                    placeholder="3000"
                   />
                 </div>
               </div>

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
-import { FiDollarSign, FiCheckCircle, FiClock, FiAlertCircle } from 'react-icons/fi';
+import { FiDollarSign, FiCheckCircle, FiClock, FiAlertCircle, FiEdit2, FiX } from 'react-icons/fi';
 
 export const RevenueDashboard = () => {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [editingPayment, setEditingPayment] = useState(null);
+  const [editFee, setEditFee] = useState('');
 
   useEffect(() => {
     fetchPayments();
@@ -27,6 +29,17 @@ export const RevenueDashboard = () => {
       fetchPayments();
     } catch (err) {
       alert('Error updating payment status');
+    }
+  };
+
+  const handleUpdateFee = async (e) => {
+    e.preventDefault();
+    try {
+      await api.patch(`/payments/${editingPayment.id}/`, { monthly_fee: editFee });
+      setEditingPayment(null);
+      fetchPayments();
+    } catch (err) {
+      alert('Error updating monthly fee');
     }
   };
 
@@ -112,7 +125,17 @@ export const RevenueDashboard = () => {
                       </span>
                     )}
                   </td>
-                  <td className="py-3.5 px-4 text-right">
+                  <td className="py-3.5 px-4 text-right space-x-2">
+                    <button
+                      onClick={() => {
+                        setEditingPayment(p);
+                        setEditFee(p.monthly_fee);
+                      }}
+                      className="px-2.5 py-1 bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold text-xs rounded-lg transition inline-flex items-center"
+                      title="Edit Monthly Fee"
+                    >
+                      <FiEdit2 className="mr-1" /> Edit Fee
+                    </button>
                     {p.status !== 'PAID' && (
                       <button
                         onClick={() => markPaid(p.id)}
@@ -128,6 +151,54 @@ export const RevenueDashboard = () => {
           </tbody>
         </table>
       </div>
+
+      {/* EDIT FEE MODAL */}
+      {editingPayment && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gray-800 border border-gray-700 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl p-6 space-y-4">
+            <div className="flex justify-between items-center border-b border-gray-700 pb-3">
+              <h3 className="text-lg font-bold text-white">Edit Client Monthly Fee</h3>
+              <button onClick={() => setEditingPayment(null)} className="text-gray-400 hover:text-white">
+                <FiX className="w-5 h-5" />
+              </button>
+            </div>
+            <form onSubmit={handleUpdateFee} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-gray-300 mb-1">
+                  Client: <span className="text-white font-bold">{editingPayment.client_name}</span>
+                </label>
+                <div className="mt-2">
+                  <label className="block text-xs font-semibold text-gray-400 mb-1">Monthly Package Fee (₹)</label>
+                  <input
+                    type="number"
+                    step="100"
+                    required
+                    value={editFee}
+                    onChange={(e) => setEditFee(e.target.value)}
+                    className="bg-gray-900 border border-gray-700 w-full px-3 py-2.5 rounded-xl text-white font-bold text-lg text-emerald-400 focus:outline-none focus:border-emerald-500"
+                    placeholder="3000"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end space-x-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setEditingPayment(null)}
+                  className="px-4 py-2 bg-gray-700 text-gray-300 text-xs font-semibold rounded-xl"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-lg shadow-emerald-900/30"
+                >
+                  Update Fee
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
