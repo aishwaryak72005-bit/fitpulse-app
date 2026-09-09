@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const getMediaUrl = (path) => {
   if (!path) return null;
@@ -17,6 +17,10 @@ export const getMediaUrl = (path) => {
 export const Avatar = ({ src, name = 'Client', size = 'w-10 h-10', textSize = 'text-base', className = '' }) => {
   const [error, setError] = useState(false);
   const mediaUrl = getMediaUrl(src);
+
+  useEffect(() => {
+    setError(false);
+  }, [src]);
 
   const initial = name && name.trim() ? name.trim()[0].toUpperCase() : 'C';
 
