@@ -102,18 +102,18 @@ export const ClientDashboard = () => {
               : `You have ${stats.todays_workouts_count} exercises assigned for today.`}
           </p>
 
-          <div className="flex items-center space-x-3 pt-2">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-2">
             {!stats.workout_completed && (
               <button
                 onClick={handleCompleteWorkout}
-                className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-emerald-900/40 flex items-center justify-center"
+                className="flex-1 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-emerald-900/40 flex items-center justify-center"
               >
-                <FiCheckCircle className="mr-2" /> Mark Workout Completed 🎉
+                <FiCheckCircle className="mr-2 shrink-0" /> Mark Workout Completed 🎉
               </button>
             )}
             <Link
               to="/client/workouts"
-              className="py-2.5 px-4 bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold rounded-xl text-sm transition flex items-center"
+              className="py-2.5 px-4 bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold rounded-xl text-sm transition flex items-center justify-center shrink-0"
             >
               View Exercises <FiArrowRight className="ml-1" />
             </Link>

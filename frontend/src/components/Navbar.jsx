@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { FiBell, FiUser, FiLogOut, FiKey, FiActivity } from 'react-icons/fi';
+import { FiBell, FiUser, FiLogOut, FiKey, FiActivity, FiMenu, FiX } from 'react-icons/fi';
 import api from '../api/axios';
 import { Link } from 'react-router-dom';
 
-export const Navbar = () => {
+export const Navbar = ({ mobileOpen, setMobileOpen }) => {
   const { user, logout } = useAuth();
   const [notifications, setNotifications] = useState([]);
   const [showNotifDropdown, setShowNotifDropdown] = useState(false);
@@ -39,12 +39,19 @@ export const Navbar = () => {
   const unreadCount = notifications.filter((n) => !n.is_read).length;
 
   return (
-    <nav className="bg-gray-800 border-b border-gray-700 px-6 py-3 sticky top-0 z-40 flex items-center justify-between shadow-md">
+    <nav className="bg-gray-800 border-b border-gray-700 px-4 sm:px-6 py-3 sticky top-0 z-40 flex items-center justify-between shadow-md">
       <div className="flex items-center space-x-3">
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden p-1.5 text-gray-300 hover:text-white rounded-xl bg-gray-700/50 hover:bg-gray-700 transition"
+          title="Toggle Navigation Menu"
+        >
+          {mobileOpen ? <FiX className="w-6 h-6 text-emerald-400" /> : <FiMenu className="w-6 h-6" />}
+        </button>
         <div className="bg-emerald-500 p-2 rounded-xl text-gray-900 font-bold">
-          <FiActivity className="w-6 h-6" />
+          <FiActivity className="w-5 h-5 sm:w-6 sm:h-6" />
         </div>
-        <Link to="/" className="text-xl font-extrabold tracking-wider text-white">
+        <Link to="/" className="text-lg sm:text-xl font-extrabold tracking-wider text-white">
           FIT<span className="text-emerald-400">PULSE</span>
         </Link>
       </div>

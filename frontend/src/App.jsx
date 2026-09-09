@@ -24,12 +24,14 @@ import { MyPhotos } from './pages/client/MyPhotos';
 import { MyPayments } from './pages/client/MyPayments';
 
 const AppLayout = () => {
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col">
-      <Navbar />
-      <div className="flex flex-1">
-        <Sidebar />
-        <main className="flex-1 p-6 overflow-y-auto max-w-7xl">
+      <Navbar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+      <div className="flex flex-1 relative">
+        <Sidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+        <main className="flex-1 p-4 sm:p-6 overflow-y-auto max-w-7xl w-full">
           <Routes>
             {/* Shared Authenticated Routes */}
             <Route element={<ProtectedRoute allowedRoles={['TRAINER', 'CLIENT']} />}>
