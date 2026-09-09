@@ -1,8 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import TokenRefreshView
 from .views import (
-    CustomTokenObtainPairView, ChangePasswordView, register_trainer,
+    CustomTokenObtainPairView, CustomTokenRefreshView, ChangePasswordView, register_trainer,
     trainer_dashboard_stats, client_dashboard_stats,
     workout_completion_toggle, send_custom_notification,
     weekly_progress_report, ClientProfileViewSet,
@@ -22,7 +21,7 @@ router.register(r'payments', PaymentViewSet, basename='payment')
 urlpatterns = [
     path('auth/login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/register-trainer/', register_trainer, name='register_trainer'),
-    path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('auth/token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
     path('auth/change-password/', ChangePasswordView.as_view(), name='change_password'),
     
     path('trainer/stats/', trainer_dashboard_stats, name='trainer_stats'),

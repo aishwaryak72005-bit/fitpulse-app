@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
+from rest_framework_simplejwt.exceptions import InvalidToken
 from django.contrib.auth import get_user_model
 from .models import (
     ClientProfile, WorkoutPlan, WorkoutCompletion, DietPlan,
@@ -7,6 +8,14 @@ from .models import (
 )
 
 User = get_user_model()
+
+
+class CustomTokenRefreshSerializer(TokenRefreshSerializer):
+    def validate(self, attrs):
+        try:
+            return super().validate(attrs)
+        except Exception:
+            raise InvalidToken({'detail': 'User not found or token expired.', 'code': 'token_not_valid'})
 
 
 class UserSerializer(serializers.ModelSerializer):

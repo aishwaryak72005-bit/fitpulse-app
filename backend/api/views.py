@@ -3,7 +3,7 @@ from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.db.models import Sum, Q, Count
 from django.utils import timezone
 from datetime import timedelta
@@ -13,7 +13,7 @@ from .models import (
     DailyCheckIn, ProgressPhoto, Notification, Payment
 )
 from .serializers import (
-    CustomTokenObtainPairSerializer, ChangePasswordSerializer, TrainerRegisterSerializer,
+    CustomTokenObtainPairSerializer, CustomTokenRefreshSerializer, ChangePasswordSerializer, TrainerRegisterSerializer,
     ClientProfileSerializer, ClientCreateSerializer, WorkoutPlanSerializer,
     WorkoutCompletionSerializer, DietPlanSerializer, DailyCheckInSerializer,
     ProgressPhotoSerializer, NotificationSerializer, PaymentSerializer,
@@ -37,6 +37,10 @@ def register_trainer(request):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+
+class CustomTokenRefreshView(TokenRefreshView):
+    serializer_class = CustomTokenRefreshSerializer
 
 
 class ChangePasswordView(generics.UpdateAPIView):
