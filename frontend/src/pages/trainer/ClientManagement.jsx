@@ -69,7 +69,18 @@ export const ClientManagement = () => {
       fetchClients();
       resetForm();
     } catch (err) {
-      setFormError(err.response?.data?.detail || JSON.stringify(err.response?.data) || 'Error creating client');
+      if (err.response?.data) {
+        const d = err.response.data;
+        if (typeof d === 'object') {
+          const firstKey = Object.keys(d)[0];
+          const msg = Array.isArray(d[firstKey]) ? d[firstKey][0] : d[firstKey];
+          setFormError(`${firstKey}: ${msg}`);
+        } else {
+          setFormError('Failed to create client. Please verify inputs.');
+        }
+      } else {
+        setFormError('Network error. Please try again.');
+      }
     }
   };
 

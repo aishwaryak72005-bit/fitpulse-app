@@ -166,14 +166,6 @@ class ClientProfileViewSet(viewsets.ModelViewSet):
         serializer = ClientCreateSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         client_profile = serializer.save()
-        
-        Payment.objects.create(
-            client=client_profile,
-            monthly_fee=150.00,
-            due_date=timezone.now().date() + timedelta(days=30),
-            renewal_date=timezone.now().date() + timedelta(days=30),
-            status='PENDING'
-        )
 
         Notification.objects.create(
             sender=request.user,

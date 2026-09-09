@@ -139,6 +139,13 @@ class ClientCreateSerializer(serializers.Serializer):
     workout_time = serializers.TimeField(default='07:00:00')
     monthly_fee = serializers.DecimalField(max_digits=10, decimal_places=2, default=3000.00)
 
+    def validate(self, attrs):
+        if User.objects.filter(username=attrs['username']).exists():
+            raise serializers.ValidationError({"username": "Username already taken."})
+        if User.objects.filter(email=attrs['email']).exists():
+            raise serializers.ValidationError({"email": "Email address already in use."})
+        return attrs
+
     def create(self, validated_data):
         user_data = {
             'username': validated_data['username'],
